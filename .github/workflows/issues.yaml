@@ -1,20 +1,18 @@
-name: Auto Add Issues to Project
+name: Add opened issues to project
 
 on:
   issues:
     types: [opened]
 
-env:
-  MY_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
-  assign_one_project:
-    name: Assign to One Project
+  add-to-project:
     runs-on: ubuntu-latest
     steps:
-      - name: Assign new issues to project 
-        uses: srggrs/assign-one-project-github-action@1.2.1
-        if: github.event.action == 'opened'
+      - name: Add issue to project
+        uses: peter-evans/add-issue-to-project@v2.2.0
         with:
           project: 'https://github.com/orgs/Rivnam-Manvir/projects/2'
-          column_name: 'Triage'
+          column: To do
+          close-issue: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
